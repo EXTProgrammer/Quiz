@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<head>
+    <style>
+        body {
+            font-family: "Josefin Sans", sans-serif;
+            font-optical-sizing: auto;
+            text-align: center;
+            background-image: url(https://media0.giphy.com/media/l3q2Xl2Rd8wZfMCaI/giphy.gif?cid=790b7611vb06lzep89qro1e5vougxrftbq8i1mdxcg9wl4i7&ep=v1_gifs_search&rid=giphy.gif&ct=g);
+            background-size: cover;
+        }
+
+        h1{
+            color: white;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+
+        #pergunta {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: violet;
+        }
+
+        #opcoes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        #resultado{
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 10px;
+        }
+
+        button:hover{
+            background: purple;
+            color: white;
+            transition: 0.5s;
+        }
+
+        .correto {
+            background-color: #8bc34a;
+            font-size: 2em;
+        }
+
+        .incorreto {
+            background-color: #ff5722;
+            font-size: 2em;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Perguntas e Respostas</title>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>Quiz de Perguntas e Respostas</h1>
+        <div id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        const perguntas = [
+            {
+                pergunta: "Quem inventou o sistema de transmissão elétrica por Correntes Alternadas?",
+                opcoes: ["Thomas Edison", "Alberto Santos Dumont", "Nikola Tesla", "Albert Einstein"],
+                resposta: "Nikola Tesla"
+            },
+
+            {
+                pergunta: "Quem propôs um dos primeiros projetos de Computador: a Máquina Diferencial?",
+                opcoes: ["Ada Lovelace", "Charles Babbage", "Alan Turing", "Thomas Flowers"],
+                resposta: "Charles Babbage"
+            },
+
+            {
+                pergunta: "Quem escreveu 'O Conde de Monte Cristo'?",
+                opcoes: ["William Shakespeare", "Voltaire", "Alexandre Dumas", "Machado de Assis"],
+                resposta: "Alexandre Dumas"
+            },
+            
+            {
+                pergunta: "Qual Planeta do Sistema Solar possui o maior número de satélites naturais?",
+                opcoes: ["Jupiter", "Saturno", "Netuno", "Terra"],
+                resposta: "Saturno"
+            },
+
+            {
+                pergunta: "Quem foi considerado(a) pioneiro(a) da programação?",
+                opcoes: ["Charles Babbage", "Tim Berners-Lee", "Ada Lovelace", "Grace Hopper"],
+                resposta: "Ada Lovelace",
+            }
+        ];
+
+        const perguntaElemento = document.getElementById("pergunta");
+        const opcoesElemento = document.getElementById("opcoes");
+        const resultadoElemento = document.getElementById("resultado");
+
+        let indicePerguntaAtual = 0;
+
+        function carregarPergunta() {
+            const perguntaAtual = perguntas[indicePerguntaAtual];
+            perguntaElemento.textContent = perguntaAtual.pergunta;
+
+            opcoesElemento.innerHTML = "";
+            perguntaAtual.opcoes.forEach(opcao => {
+                const botao = document.createElement("button");
+                botao.textContent = opcao;
+                botao.addEventListener("click", () => verificarResposta(opcao));
+                opcoesElemento.appendChild(botao);
+            });
+        }
+
+        function verificarResposta(respostaSelecionada) {
+            const perguntaAtual = perguntas[indicePerguntaAtual];
+            if (respostaSelecionada === perguntaAtual.resposta) {
+                resultadoElemento.textContent = "Resposta Correta!";
+                resultadoElemento.className = "correto";
+            } else {
+                resultadoElemento.textContent = "Resposta Incorreta. A resposta correta é: " + perguntaAtual.resposta;
+                resultadoElemento.className = "incorreto";
+            }
+            //avança para a próxima pergunta ou finaliza o quiz
+            indicePerguntaAtual++;
+            if (indicePerguntaAtual < perguntas.length) {
+                setTimeout(carregarPergunta, 2000); // carrega a próxima pergunta após 2 segundos
+            } else {
+                resultadoElemento.textContent = "Quiz Concluído!";
+                resultadoElemento.className = "";
+            }
+        }
+
+        //carrega a primeira pergunta quando a página carrega
+        carregarPergunta();
+    </script>
+
+</body>
+
+</html>
